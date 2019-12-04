@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% if not app.user %}
+        <h1>Connexion</h1>
+        <form action="{{ path('security_login') }}" method="post">
+            <div class="form-group">
+
+                <div class="col-md-4 mx-auto">
+                    {% if error %}
+                    <input placeholder="Nom d'utilisateur..." required name="_username" type="text" class="form-control is-invalid">
+                    <input placeholder="Mot de passe..." required name="_password" type="password" class="form-control is-invalid">
+                    <div class="invalid-feedback">
+                        Nom d'utilisateur ou mot de passe erroné.
+                    </div>
+                    {% else %}
+                    <input placeholder="Nom d'utilisateur..." required name="_username" type="text" class="form-control">
+                    <input placeholder="Mot de passe..." required name="_password" type="password" class="form-control">
+                </div>
+                {% endif %}
+            </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-success">Connexion</button>
+                </div>
+        </form>
+    {% else %}
+        <h3>Vous êtes déjà connecté !</h3>
+    {% endif %}
+{% endblock %}

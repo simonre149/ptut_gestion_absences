@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        {% include 'pages/superadmin.home.html.twig' %}
+    {% elseif is_granted('ROLE_ADMIN')%}
+        {% include 'pages/admin.home.html.twig' %}
+    {% elseif is_granted('ROLE_USER')%}
+        {% include 'pages/user.home.html.twig' %}
+    {% else %}
+        <h1>Vous n'êtes pas connecté</h1>
+    {% endif %}
+{% endblock %}
