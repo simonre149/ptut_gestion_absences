@@ -32,3 +32,7 @@ qr_code_generate:
     text: "[\\w\\W]+"
   defaults:
     _controller: Endroid\QrCodeBundle\Controller\GenerateController
+
+validate_manually:
+  path: /cours/{classroom_id}/validation_manuelle
+  controller: App\Controller\ClassroomController::validateManually

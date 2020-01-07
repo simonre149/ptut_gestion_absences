@@ -115,6 +115,17 @@ class ClassroomController extends AbstractController
             'role' => $this->getUser()->getRoles()
         ]);
     }
+
+    public function validateManually($classroom_id)
+    {
+        dd("ATTENTION");
+        if ($this->getUser()->getRoles() == ['ROLE_USER']) $this->redirectToRoute('home');
+
+        return $this->render('pages/validatemanually.html.twig' ,[
+            'current_menu' => 'validate_manually',
+            'role' => $this->getUser()->getRoles()
+        ]);
+    }
 }
 
 
