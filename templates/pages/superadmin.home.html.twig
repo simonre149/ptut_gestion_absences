@@ -10,7 +10,7 @@
                 <div class="card-body" style="text-align: center">
                     <h5 class="card-title" style="text-align: center">{{ classroom.teacher.name }} {{ classroom.teacher.firstname }}</h5>
                     <p class="card-text" style="text-align: center">Le {{ classroom.startat | date('d/m/Y') }} de {{ classroom.startat | date('h:i') }} à {{ classroom.endat | date('h:i') }}</p>
-                    <a href="#" class="btn btn-primary">Afficher le QR code</a>
+                    <a href="{{ path('showqrcode', {'classroom_id' : classroom.id}) }}" class="btn btn-primary">Afficher le QR code</a>
                 </div>
             </div>
         </div>

@@ -1,4 +1,13 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-
+    {{ form_start(form) }}
+    <div class="col-md-4 mx-auto text-center pt-5">
+        {{ form_row(form.students, {'label' : 'Choisissez l\'élève dont la présence doit être validée'}) }}
+    </br>
+        {{ form_row(form.validate_all, {'label' : 'OU valider la présence de tout le monde dans votre cours'}) }}
+    </div>
+    <div class="pt-5" style="text-align: center">
+        <button type="submit" class="btn btn-success">Valider la présence</button>
+    </div>
+    {{ form_end(form) }}
 {% endblock %}

@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Classroom;
 use App\Form\AdminClassroomType;
-use App\Form\ClassroomType;
 use App\Form\TeacherClassroomType;
+use App\Form\ValidateType;
 use App\Repository\ClassroomRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -116,14 +116,31 @@ class ClassroomController extends AbstractController
         ]);
     }
 
-    public function validateManually($classroom_id)
+    public function validateManually($classroom_id, Request $request)
     {
-        dd("ATTENTION");
-        if ($this->getUser()->getRoles() == ['ROLE_USER']) $this->redirectToRoute('home');
+        if ($this->getUser()->getRoles() == ['ROLE_USER']) return $this->redirectToRoute('home');
+
+        $form = $this->createForm(ValidateType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $validate_all = $form->get('validate_all')->getData();
+            if ($validate_all)
+            {
+                dd("On valide tout");
+            }
+            else
+            {
+                $student = $form->get('students')->getData();
+                dd("On valide la présence de " . $student->getFirstname());
+            }
+        }
 
         return $this->render('pages/validatemanually.html.twig' ,[
             'current_menu' => 'validate_manually',
-            'role' => $this->getUser()->getRoles()
+            'role' => $this->getUser()->getRoles(),
+            'form' => $form->createView()
         ]);
     }
 }

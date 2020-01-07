@@ -34,5 +34,5 @@ qr_code_generate:
     _controller: Endroid\QrCodeBundle\Controller\GenerateController
 
 validate_manually:
-  path: /cours/{classroom_id}/validation_manuelle
+  path: /cours/{classroom_id}/validation-manuelle
   controller: App\Controller\ClassroomController::validateManually

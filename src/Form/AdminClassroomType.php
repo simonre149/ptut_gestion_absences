@@ -38,8 +38,7 @@ class AdminClassroomType extends AbstractType
                         ->andWhere('u.roles = :role')
                         ->setParameter('role', ['ROLE_ADMIN']);
                 },
-                'choice_label' => 'name',
-                'required' => true
+                'choice_label' => 'name'
             ])
         ;
     }
