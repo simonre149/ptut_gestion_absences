@@ -93,19 +93,4 @@ class SecurityController extends AbstractController
     }
 
     public function logout(){}
-
-    public function testJson() : JsonResponse
-    {
-        return new JsonResponse('test');
-    }
-
-    public function jsonLogin() : JsonResponse
-    {
-        $user = $this->getUser();
-
-        return new JsonResponse([
-            'username' => $user->getUsername(),
-            'roles' => $user->getRoles()
-        ]);
-    }
 }
