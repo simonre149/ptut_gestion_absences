@@ -27,15 +27,20 @@ security:
       logout:
         path: security_logout
         target: security_login
+    login:
+      pattern: ^/api/login
+      stateless: true
+      anonymous: true
+      json_login:
+        check_path: /api/login_check
+        success_handler: lexik_jwt_authentication.handler.authentication_success
+        failure_handler: lexik_jwt_authentication.handler.authentication_failure
     api:
       pattern: ^/api
-        stateless: true
-        simple_preauth:
-          authenticator: App\Security\ApiKeyAuthenticator
-        provider: api_key_user_provider
-    secured_area:
-      pattern: ^/api
-      stateless: false
+      stateless: true
+      guard:
+        authenticators:
+          - lexik_jwt_authentication.jwt_token_authenticator
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#firewalls-authentication

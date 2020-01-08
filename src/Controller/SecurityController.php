@@ -92,5 +92,14 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    public function api_login(): JsonResponse
+    {
+        $user = $this->getUser();
+        return new JsonResponse([
+            'username' => $user->getUsername(),
+            'roles' => $user->getRoles(),
+        ]);
+    }
+
     public function logout(){}
 }
