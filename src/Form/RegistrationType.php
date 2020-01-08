@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\ClassroomGroup;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -26,15 +28,10 @@ class RegistrationType extends AbstractType
                 ],
                 'mapped' => false
             ])
-            ->add('groupchoice', ChoiceType::class, [
-                'choices' => [
-                    'Aucun (professeur ou admin)' => 'none',
-                    'A1' => 'A1',
-                    'A2' => 'A2',
-                    'B1' => 'B1',
-                    'B2' => 'B2'
-                ],
-                'mapped' => false
+            ->add('classroomGroup', EntityType::class, [
+                'class' => ClassroomGroup::class,
+                'choice_label' => 'name',
+                'required' => false
             ])
         ;
     }

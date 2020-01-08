@@ -54,14 +54,14 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $student_group;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Classroom", mappedBy="teacher")
      */
     private $classrooms;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ClassroomGroup", inversedBy="student")
+     */
+    private $classroomGroup;
 
     public function __construct()
     {
@@ -138,18 +138,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getStudentGroup(): ?string
-    {
-        return $this->student_group;
-    }
-
-    public function setStudentGroup(string $student_group): self
-    {
-        $this->student_group = $student_group;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Classroom[]
      */
@@ -177,6 +165,18 @@ class User implements UserInterface
                 $classroom->setTeacher(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getClassroomGroup(): ?ClassroomGroup
+    {
+        return $this->classroomGroup;
+    }
+
+    public function setClassroomGroup(?ClassroomGroup $classroomGroup): self
+    {
+        $this->classroomGroup = $classroomGroup;
 
         return $this;
     }

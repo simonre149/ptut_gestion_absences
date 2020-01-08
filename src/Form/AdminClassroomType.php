@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Classroom;
+use App\Entity\ClassroomGroup;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -19,25 +20,8 @@ class AdminClassroomType extends AbstractType
             ->add('name')
             ->add('start_at')
             ->add('end_at')
-            ->add('groupchoice', ChoiceType::class, [
-                'choices' => [
-                    'Promotion complète' => 'promocomp',
-                    'TD A' => 'TDA',
-                    'TD B' => 'TDB',
-                    'A1' => 'A1',
-                    'A2' => 'A2',
-                    'B1' => 'B1',
-                    'B2' => 'B2'
-                ],
-                'mapped' => false
-            ])
-            ->add('teacher', EntityType::class, [
-                'class' => User::class,
-                'query_builder' => function (UserRepository $userRepository) {
-                    return $userRepository->createQueryBuilder('u')
-                        ->andWhere('u.roles = :role')
-                        ->setParameter('role', ['ROLE_ADMIN']);
-                },
+            ->add('classroomGroup', EntityType::class, [
+                'class' => ClassroomGroup::class,
                 'choice_label' => 'name'
             ])
         ;

@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Classroom;
+use App\Entity\ClassroomGroup;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,19 +18,10 @@ class TeacherClassroomType extends AbstractType
             ->add('name')
             ->add('start_at')
             ->add('end_at')
-            ->add('groupchoice', ChoiceType::class, [
-                'choices' => [
-                    'Promotion complète' => 'promocomp',
-                    'TD A' => 'TDA',
-                    'TD B' => 'TDB',
-                    'A1' => 'A1',
-                    'A2' => 'A2',
-                    'B1' => 'B1',
-                    'B2' => 'B2'
-                ],
-                'mapped' => false
+            ->add('classroomGroup', EntityType::class, [
+                'class' => ClassroomGroup::class,
+                'choice_label' => 'name'
             ])
-        ;
         ;
     }
 

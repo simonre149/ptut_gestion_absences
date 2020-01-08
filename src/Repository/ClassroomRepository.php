@@ -27,11 +27,11 @@ class ClassroomRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findAllByGroup($group)
+    public function findAllByGroupId($group_id)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.student_group = :group')
-            ->setParameter('group', $group)
+            ->andWhere('c.classroomGroup = :group')
+            ->setParameter('group', $group_id)
             ->orderBy('c.start_at', 'ASC')
             ->getQuery()
             ->getResult()

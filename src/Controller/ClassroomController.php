@@ -24,43 +24,14 @@ class ClassroomController extends AbstractController
         {
             $classroom->setTeacher($user);
             $form = $this->createForm(TeacherClassroomType::class, $classroom);
-        }
-        else if ($user->getRoles() == ['ROLE_SUPER_ADMIN'])
-        {
+        } else if ($user->getRoles() == ['ROLE_SUPER_ADMIN']) {
             $form = $this->createForm(AdminClassroomType::class, $classroom);
         }
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
+        if ($form->isSubmitted() && $form->isValid())
         {
-            $student_group = $form->get('groupchoice')->getData();
-
-            switch ($student_group)
-            {
-                case 'promocomp':
-                    $classroom->setStudentGroup('promocomp');
-                    break;
-                case 'TDA':
-                    $classroom->setStudentGroup('TDA');
-                    break;
-                case 'TDB':
-                    $classroom->setStudentGroup('TDB');
-                    break;
-                case 'A1':
-                    $classroom->setStudentGroup('A1');
-                    break;
-                case 'A2':
-                    $classroom->setStudentGroup('A2');
-                    break;
-                case 'B1':
-                    $classroom->setStudentGroup('B1');
-                    break;
-                case 'B2':
-                    $classroom->setStudentGroup('B2');
-                    break;
-            }
-
             $manager->persist($classroom);
             $manager->flush();
 

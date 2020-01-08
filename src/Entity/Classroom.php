@@ -45,6 +45,11 @@ class Classroom
      */
     private $teacher;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ClassroomGroup", inversedBy="student")
+     */
+    private $classroomGroup;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +111,18 @@ class Classroom
     public function setTeacher(?User $teacher): self
     {
         $this->teacher = $teacher;
+
+        return $this;
+    }
+
+    public function getClassroomGroup(): ?ClassroomGroup
+    {
+        return $this->classroomGroup;
+    }
+
+    public function setClassroomGroup(?ClassroomGroup $classroomGroup): self
+    {
+        $this->classroomGroup = $classroomGroup;
 
         return $this;
     }
