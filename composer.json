@@ -7,7 +7,6 @@
         "ext-iconv": "*",
         "api-platform/api-pack": "^1.2",
         "endroid/qr-code-bundle": "^3.3",
-        "lexik/jwt-authentication-bundle": "^2.6",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "4.3.*",
