@@ -36,3 +36,11 @@ qr_code_generate:
 validate_manually:
   path: /cours/{classroom_id}/validation-manuelle
   controller: App\Controller\ClassroomController::validateManually
+
+json_login:
+  path: /logapi/login_check
+  controller: App\Controller\SecurityController::jsonLogin
+
+testJson:
+  path: /testjson
+  controller: App\Controller\SecurityController::testJson

@@ -10,7 +10,6 @@ security:
 
   # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
   providers:
-    in_memory: { memory: null }
     in_database:
       entity:
         class: App\Entity\User
@@ -28,6 +27,20 @@ security:
       logout:
         path: security_logout
         target: security_login
+    login:
+      pattern: logapi/login
+      stateless: true
+      anonymous: true
+      json_login:
+        check_path: /logapi/login_check
+        success_handler: lexik_jwt_authentication.handler.authentication_success
+        failure_handler: lexik_jwt_authentication.handler.authentication_failure
+    api:
+      pattern: ^/logapi
+      stateless: true
+      guard:
+        authenticator:
+          - lexik_jwt_authentication.jwt_token_authenticator
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#firewalls-authentication
