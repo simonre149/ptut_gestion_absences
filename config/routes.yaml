@@ -38,5 +38,5 @@ validate_manually:
   controller: App\Controller\ClassroomController::validateManually
 
 api_login:
-  path: /apilogin
+  path: /api/login_check
   controller: App\Controller\SecurityController::api_login

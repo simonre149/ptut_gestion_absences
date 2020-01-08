@@ -18,15 +18,15 @@ security:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
-    main:
-      anonymous: true
-      provider: in_database
-      form_login:
-        login_path: security_login
-        check_path: security_login
-      logout:
-        path: security_logout
-        target: security_login
+#    main:
+#      anonymous: true
+#      provider: in_database
+#      form_login:
+#        login_path: security_login
+#        check_path: security_login
+#      logout:
+#        path: security_logout
+#        target: security_login
     login:
       pattern: ^/api/login
       stateless: true
@@ -41,7 +41,13 @@ security:
       guard:
         authenticators:
           - lexik_jwt_authentication.jwt_token_authenticator
-
+    classic:
+      anonymous: ~
+      guard:
+        authenticators:
+          - App\Security\LoginFormAuthenticator
+      logout:
+        path:   app_logout
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#firewalls-authentication
 
