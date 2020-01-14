@@ -92,7 +92,7 @@ class SecurityController extends AbstractController
         else
         {
             $token = random_bytes(10) . $this->getUser()->getUsername();
-            $hashed_token = sha1($token);
+            $hashed_token = 'tok' . sha1($token);
 
             $this->getUser()->setToken($hashed_token);
             $em->flush();
@@ -108,7 +108,7 @@ class SecurityController extends AbstractController
     public function tokenRefresh(EntityManagerInterface $em)
     {
         $token = random_bytes(10) . $this->getUser()->getUsername();
-        $hashed_token = sha1($token);
+        $hashed_token = 'tok' . sha1($token);
 
         $this->getUser()->setToken($hashed_token);
         $em->flush();
