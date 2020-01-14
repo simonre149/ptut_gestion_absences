@@ -22,29 +22,7 @@ class HomeController extends AbstractController
 
             if($user->getRoles() == ['ROLE_USER']) //si l'utilisateur est un élève
             {
-                $user_group_id = $user->classroomGroup()->getId();
-                dd($user_group_id);
-
-                switch ($user_group_id) {
-                    case 'A1':
-                        $TP = 'A1';
-                        $TD = 'TDA';
-                        break;
-                    case 'A2':
-                        $TP = 'A2';
-                        $TD = 'TDA';
-                        break;
-                    case 'B1':
-                        $TP = 'B1';
-                        $TD = 'TDB';
-                        break;
-                    case 'B2':
-                        $TP = 'B2';
-                        $TD = 'TDB';
-                        break;
-                }
-                $classrooms_promocomp = $classroomRepository->findAllByGroupId(lalalalalala);
-                $student_classrooms = array_merge($classroomRepository->findAllByGroupId(lalalalala), $classroomRepository->findAllByGroupId(lalalalala), $classrooms_promocomp);
+                $student_classrooms = $classroomRepository->findAllByGroupId($user->getClassroomGroup());
             }
 
             if($user->getRoles() == ['ROLE_ADMIN']) //si l'utilisateur est un professeur

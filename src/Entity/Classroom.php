@@ -36,11 +36,6 @@ class Classroom
     private $end_at;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $student_group;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="classrooms")
      */
     private $teacher;
@@ -87,18 +82,6 @@ class Classroom
     public function setEndAt(\DateTimeInterface $end_at): self
     {
         $this->end_at = $end_at;
-
-        return $this;
-    }
-
-    public function getStudentGroup(): ?string
-    {
-        return $this->student_group;
-    }
-
-    public function setStudentGroup(string $student_group): self
-    {
-        $this->student_group = $student_group;
 
         return $this;
     }

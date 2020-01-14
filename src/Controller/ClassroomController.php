@@ -9,12 +9,14 @@ use App\Form\ValidateType;
 use App\Repository\ClassroomRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 class ClassroomController extends AbstractController
 {
-    public function addClassroom(Request $request, ObjectManager $manager, UserRepository $userRepository)
+    public function addClassroom(Request $request, EntityManagerInterface $manager, UserRepository $userRepository)
     {
         $user = $userRepository->findUserById($this->getUser());
 

@@ -20,6 +20,7 @@ class AdminClassroomType extends AbstractType
             ->add('name')
             ->add('start_at')
             ->add('end_at')
+            ->add('teacher')
             ->add('classroomGroup', EntityType::class, [
                 'class' => ClassroomGroup::class,
                 'choice_label' => 'name'

@@ -40,7 +40,7 @@ class ClassroomGroup
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -81,5 +81,10 @@ class ClassroomGroup
         }
 
         return $this;
+    }
+
+    public function __toString() : string
+    {
+        return $this->name;
     }
 }

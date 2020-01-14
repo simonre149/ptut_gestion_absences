@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,7 @@ class SecurityController extends AbstractController
 {
     private $password_encoder;
 
-    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, UserRepository $userRepository)
+    public function registration(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder, UserRepository $userRepository)
     {
         $user = new User();
         $user->setRoles(['ROLE_USER']);
@@ -32,7 +33,6 @@ class SecurityController extends AbstractController
             $user->setPassword($hashed_password);
 
             $role = $form->get('rolechoice')->getData();
-            $student_group = $form->get('groupchoice')->getData();
 
             switch ($role)
             {
@@ -44,25 +44,6 @@ class SecurityController extends AbstractController
                     break;
                 case 'super-admin':
                     $user->setRoles(['ROLE_SUPER_ADMIN']);
-                    break;
-            }
-
-            switch ($student_group)
-            {
-                case 'none':
-                    $user->setStudentGroup('');
-                    break;
-                case 'A1':
-                    $user->setStudentGroup('A1');
-                    break;
-                case 'A2':
-                    $user->setStudentGroup('A2');
-                    break;
-                case 'B1':
-                    $user->setStudentGroup('B1');
-                    break;
-                case 'B2':
-                    $user->setStudentGroup('B2');
                     break;
             }
 
@@ -93,4 +74,45 @@ class SecurityController extends AbstractController
     }
 
     public function logout(){}
+
+    public function tokenGeneration(EntityManagerInterface $em)
+    {
+        if (!$this->getUser()) return $this->redirectToRoute('login');
+
+        if ($this->getUser()->getToken() != null)
+        {
+            $hashed_token = $this->getUser()->getToken();
+
+            return $this->render('pages/generatetoken.html.twig', [
+                'hashed_token' => $hashed_token,
+                'current_menu' => 'generate_token',
+                'role' => $this->getUser()->getRoles()
+            ]);
+        }
+        else
+        {
+            $token = random_bytes(10) . $this->getUser()->getUsername();
+            $hashed_token = sha1($token);
+
+            $this->getUser()->setToken($hashed_token);
+            $em->flush();
+
+            return $this->render('pages/generatetoken.html.twig', [
+                'hashed_token' => $hashed_token,
+                'current_menu' => 'generate_token',
+                'role' => $this->getUser()->getRoles()
+            ]);
+        }
+    }
+
+    public function tokenRefresh(EntityManagerInterface $em)
+    {
+        $token = random_bytes(10) . $this->getUser()->getUsername();
+        $hashed_token = sha1($token);
+
+        $this->getUser()->setToken($hashed_token);
+        $em->flush();
+
+        return $this->redirectToRoute('generate_token');
+    }
 }

@@ -19,16 +19,21 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item {% if current_menu == 'home' %} active {% endif %}">
+                    <li class="nav-item {% if current_menu is defined and current_menu == 'home' %} active {% endif %}">
                         <a class="nav-link" href="{{ path('home') }}">Accueil</a>
                     </li>
+                    {% if role == ['ROLE_USER'] %}
+                        <li class="nav-item {% if current_menu is defined and current_menu == 'generate_token' %} active {% endif %}">
+                            <a class="nav-link" href="{{ path('generate_token') }}">Se connecter à l'application</a>
+                        </li>
+                    {% endif %}
                     {% if role == ['ROLE_ADMIN'] or role == ['ROLE_SUPER_ADMIN'] %}
-                        <li class="nav-item {% if current_menu == 'add_classroom' %} active {% endif %}">
+                        <li class="nav-item {% if current_menu is defined and current_menu == 'add_classroom' %} active {% endif %}">
                             <a class="nav-link" href="{{ path('add_classroom') }}">Ajouter un cours</a>
                         </li>
                     {% endif %}
                     {% if role == ['ROLE_SUPER_ADMIN'] %}
-                        <li class="nav-item {% if current_menu == 'registration' %} active {% endif %}">
+                        <li class="nav-item {% if current_menu is defined and current_menu == 'registration' %} active {% endif %}">
                             <a class="nav-link" href="{{ path('security_registration') }}">Ajouter un utilisateur</a>
                         </li>
                     {% endif %}

@@ -4,7 +4,7 @@
     <div class="col-md-4 mx-auto text-center">
         {{ form_start(form) }}
         {{ form_row(form.name, {'label' : 'Matière', 'attr' : {'placeholder': 'Entrez la matière...'}}) }}
-        {{ form_row(form.groupchoice, {'label' : 'Groupe', 'attr' : {'placeholder': 'Choisissez le groupe d\'élèves...'}}) }}
+        {{ form_row(form.classroomGroup, {'label' : 'Groupe', 'attr' : {'placeholder': 'Choisissez le groupe d\'élèves...'}}) }}
         {% if role == ['ROLE_SUPER_ADMIN'] %}
             {{ form_row(form.teacher, {'label' : 'Professeur', 'attr' : {'placeholder': 'Choisissez le professeur...'}}) }}
         {% endif %}
