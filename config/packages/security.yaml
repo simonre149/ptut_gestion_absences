@@ -39,3 +39,5 @@ security:
   - { path: /ajouter-utilisateur, roles: ROLE_SUPER_ADMIN }
   - { path: /ajouter-cours, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
   - { path: /modifier-cours, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN] }
+  - { path: /generate_token, roles: [ROLE_USER]}
+  - { path: /refresh_token, roles: [ROLE_USER]}
