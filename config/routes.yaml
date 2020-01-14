@@ -41,6 +41,10 @@ refresh_token:
   path: /refresh_token
   controller: App\Controller\SecurityController::tokenRefresh
 
+token_auth:
+  path: /get_user_from_token
+  controller: App\Controller\ApiController::getUserFromToken
+
 validate_manually:
   path: /cours/{classroom_id}/validation-manuelle
   controller: App\Controller\ClassroomController::validateManually
