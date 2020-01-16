@@ -34,17 +34,13 @@ qr_code_generate:
     _controller: Endroid\QrCodeBundle\Controller\GenerateController
 
 generate_token:
-  path: /generate_token
-  controller: App\Controller\SecurityController::tokenGeneration
+  path: /generate-token
+  controller: App\Controller\ApiController::tokenGeneration
 
 refresh_token:
-  path: /refresh_token
-  controller: App\Controller\SecurityController::tokenRefresh
+  path: /refresh-token
+  controller: App\Controller\ApiController::tokenRefresh
 
-token_auth:
-  path: /get_user_from_token
+get_user_from_token:
+  path: /get-user-from-token
   controller: App\Controller\ApiController::getUserFromToken
-
-validate_manually:
-  path: /cours/{classroom_id}/validation-manuelle
-  controller: App\Controller\ClassroomController::validateManually

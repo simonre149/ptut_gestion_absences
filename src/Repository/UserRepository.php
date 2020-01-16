@@ -29,15 +29,16 @@ class UserRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findUserByToken($token)
+    public function findUserArrayById($id)
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.token = :token')
-            ->setParameter('token', $token)
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getArrayResult()
             ;
     }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

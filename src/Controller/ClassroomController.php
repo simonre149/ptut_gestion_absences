@@ -88,34 +88,6 @@ class ClassroomController extends AbstractController
             'role' => $this->getUser()->getRoles()
         ]);
     }
-
-    public function validateManually($classroom_id, Request $request)
-    {
-        if ($this->getUser()->getRoles() == ['ROLE_USER']) return $this->redirectToRoute('home');
-
-        $form = $this->createForm(ValidateType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $validate_all = $form->get('validate_all')->getData();
-            if ($validate_all)
-            {
-                dd("On valide tout");
-            }
-            else
-            {
-                $student = $form->get('students')->getData();
-                dd("On valide la présence de " . $student->getFirstname());
-            }
-        }
-
-        return $this->render('pages/validatemanually.html.twig' ,[
-            'current_menu' => 'validate_manually',
-            'role' => $this->getUser()->getRoles(),
-            'form' => $form->createView()
-        ]);
-    }
 }
 
 

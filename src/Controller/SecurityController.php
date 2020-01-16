@@ -5,14 +5,12 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Repository\UserRepository;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Validator\Constraints\Json;
 
 class SecurityController extends AbstractController
 {
@@ -74,45 +72,4 @@ class SecurityController extends AbstractController
     }
 
     public function logout(){}
-
-    public function tokenGeneration(EntityManagerInterface $em)
-    {
-        if (!$this->getUser()) return $this->redirectToRoute('login');
-
-        if ($this->getUser()->getToken() != null)
-        {
-            $hashed_token = $this->getUser()->getToken();
-
-            return $this->render('pages/generatetoken.html.twig', [
-                'hashed_token' => $hashed_token,
-                'current_menu' => 'generate_token',
-                'role' => $this->getUser()->getRoles()
-            ]);
-        }
-        else
-        {
-            $token = random_bytes(10) . $this->getUser()->getUsername();
-            $hashed_token = 'tok' . sha1($token);
-
-            $this->getUser()->setToken($hashed_token);
-            $em->flush();
-
-            return $this->render('pages/generatetoken.html.twig', [
-                'hashed_token' => $hashed_token,
-                'current_menu' => 'generate_token',
-                'role' => $this->getUser()->getRoles()
-            ]);
-        }
-    }
-
-    public function tokenRefresh(EntityManagerInterface $em)
-    {
-        $token = random_bytes(10) . $this->getUser()->getUsername();
-        $hashed_token = 'tok' . sha1($token);
-
-        $this->getUser()->setToken($hashed_token);
-        $em->flush();
-
-        return $this->redirectToRoute('generate_token');
-    }
 }

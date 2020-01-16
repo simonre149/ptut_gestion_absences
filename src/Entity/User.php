@@ -28,11 +28,6 @@ class User implements UserInterface
     private $id;
 
     /**
-    * @ORM\Column(type="string", unique=true, nullable=true)
-    */
-    private $token;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $username;
@@ -76,18 +71,6 @@ class User implements UserInterface
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getToken(): ?string
-    {
-        return $this->token;
-    }
-
-    public function setToken(string $token) : self
-    {
-        $this->token = $token;
-
-        return $this;
     }
 
     public function getUsername(): ?string
