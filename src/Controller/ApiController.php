@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\Json;
 
 class ApiController extends AbstractController
 {
@@ -66,11 +67,18 @@ class ApiController extends AbstractController
         dump($crypted_token);
         dd($decrypted_token);*/
 
-        $decrypted_token = $crypted_token;
+        $decrypted_token = $crypted_token; //A CHANGER
         $user_id = $decrypted_token[0];
 
         $user = $userRepository->findUserArrayById($user_id);
 
         return new JsonResponse($user);
+    }
+
+    public function testApi(Request $request)
+    {
+        $data = $request->get('data');
+
+        return new JsonResponse('Test ok pour : ' . $data);
     }
 }

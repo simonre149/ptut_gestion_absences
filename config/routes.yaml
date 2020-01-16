@@ -44,3 +44,7 @@ refresh_token:
 get_user_from_token:
   path: /get-user-from-token
   controller: App\Controller\ApiController::getUserFromToken
+
+testapi:
+  path: /testapi
+  controller: App\Controller\ApiController::testApi
