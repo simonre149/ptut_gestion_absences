@@ -19,7 +19,7 @@ class ApiController extends AbstractController
         if (!$this->getUser()) return $this->redirectToRoute('login');
 
         $user = $this->getUser();
-        $token = $user->getId() . "#" . $user->getUsername() . "#" . $user->getClassroomGroup() . "#" . $user->getName() . "#" . $user->getFirstname();
+        $token = $user->getId() . "#" . $user->getUsername() . "#" . $user->getClassroomGroup() . "#" . $user->getName() . "#" . $user->getFirstname() . 'tok';
         $crypted_token = $token;
 
         /*
