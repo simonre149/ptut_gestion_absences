@@ -46,5 +46,5 @@ get_user_from_token:
   controller: App\Controller\ApiController::getUserFromToken
 
 testapi:
-  path: /testapi
+  path: /api/testapi
   controller: App\Controller\ApiController::testApi
