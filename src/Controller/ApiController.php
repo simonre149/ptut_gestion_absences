@@ -79,7 +79,8 @@ class ApiController extends AbstractController
     {
         //if ($request->isMethod('POST'))
         //{
-            $data = $request->get('data');
+            $data = json_decode($request->getContent());
+            $data = $data->data;
 
             return new JsonResponse('Test ok pour : ' . $data);
         //}
