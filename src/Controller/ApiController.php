@@ -77,15 +77,15 @@ class ApiController extends AbstractController
 
     public function testApi(Request $request)
     {
-        if ($request->isMethod('POST'))
-        {
+        //if ($request->isMethod('POST'))
+        //{
             $data = $request->get('data');
 
             return new JsonResponse('Test ok pour : ' . $data);
-        }
-        else
-        {
-            return $this->redirectToRoute('home');
-        }
+        //}
+        //else
+        //{
+            //return $this->redirectToRoute('home');
+        //}
     }
 }
