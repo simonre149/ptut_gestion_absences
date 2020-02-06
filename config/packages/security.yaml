@@ -22,11 +22,11 @@ security:
       anonymous: true
       provider: in_database
       form_login:
-        login_path: security_login
-        check_path: security_login
+        login_path: login
+        check_path: login
       logout:
-        path: security_logout
-        target: security_login
+        path: logout
+        target: login
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#firewalls-authentication
 

@@ -2,7 +2,7 @@
 {% block body %}
     <h3 style="text-align: center">QR Code d'accès à l'application</h3>
     <div class="text-center">
-        <img src="{{ qr_code_data_uri(crypted_token) }}">
+        <img src="{{ qr_code_data_uri(token) }}">
     </div>
     <h3 class="text-center" style="padding-top: 2%">Scannez ce code via l'application pour vous connecter</h3>
     <a href="{{ path('refresh_token') }}" class="btn btn-primary">Regénérer votre QR Code</a>

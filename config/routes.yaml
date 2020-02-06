@@ -6,11 +6,11 @@ security_registration:
   path: /ajouter-utilisateur
   controller: App\Controller\SecurityController::registration
 
-security_login:
+login:
   path: /login
   controller: App\Controller\SecurityController::login
 
-security_logout:
+logout:
   path: /logout
   controller: App\Controller\SecurityController::logout
 
