@@ -37,14 +37,16 @@ class ApiController extends AbstractController
             //déchiffrer le token
             $token_exploded = explode("#", $token);
             $user_id = $token_exploded[0];
-            $user = $userRepository->findUserArrayById($user_id);
+            $user_array = $userRepository->findUserArrayById($user_id);
+            $user_entity = $userRepository->findUserById($user_id);
+            $user_array[0]['classroom_group'] = $user_entity->getClassroomGroup()->getName();
         }
         else
         {
             return $this->redirectToRoute('home');
         }
 
-        return new JsonResponse($user);
+        return new JsonResponse($user_array);
     }
 
 
