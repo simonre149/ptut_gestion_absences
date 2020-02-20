@@ -30,10 +30,21 @@ class ApiController extends AbstractController
 
     public function getUserFromToken(Request $request, UserRepository $userRepository)
     {
-        $token = json_decode($request->getContent());
-        $token = $token->token;
+        if ($request->isMethod('POST'))
+        {
+            $token = json_decode($request->getContent());
+            $token = $token->token;
+            //déchiffrer le token
+            $token_exploded = explode("#", $token);
+            $user_id = $token_exploded[0];
+            $user = $userRepository->findUserArrayById($user_id);
+        }
+        else
+        {
+            return $this->redirectToRoute('home');
+        }
 
-        return new JsonResponse('Ton token est : '. $token);
+        return new JsonResponse($user);
     }
 
 
