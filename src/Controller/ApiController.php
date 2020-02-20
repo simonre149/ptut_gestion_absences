@@ -36,7 +36,7 @@ class ApiController extends AbstractController
         return new JsonResponse('Ton token est : '. $token);
     }
 
-    /*
+
     public function testApi(Request $request)
     {
         if ($request->isMethod('POST'))
@@ -50,5 +50,5 @@ class ApiController extends AbstractController
         {
             return $this->redirectToRoute('home');
         }
-    }*/
+    }
 }
