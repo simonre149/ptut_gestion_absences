@@ -37,9 +37,9 @@ generate_token:
   path: /generate-token
   controller: App\Controller\ApiController::tokenGeneration
 
-refresh_token:
-  path: /refresh-token
-  controller: App\Controller\ApiController::tokenRefresh
+get_user_classrooms_from_token:
+  path: /get-user-classrooms-from-token
+  controller: App\Controller\ApiController::getUserClassrooms
 
 get_user_from_token:
   path: /get-user-from-token

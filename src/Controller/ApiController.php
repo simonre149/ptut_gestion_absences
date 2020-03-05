@@ -23,30 +23,50 @@ class ApiController extends AbstractController
         ]);
     }
 
-    public function tokenRefresh()
-    {
-        return $this->redirectToRoute('generate_token');
-    }
-
-    public function getUserFromToken(Request $request, UserRepository $userRepository)
+    public function handleToken(Request $request)
     {
         if ($request->isMethod('POST'))
         {
             $token = json_decode($request->getContent());
             $token = $token->token;
-            //déchiffrer le token
-            $token_exploded = explode("#", $token);
-            $user_id = $token_exploded[0];
-            $user_array = $userRepository->findUserArrayById($user_id);
-            $user_entity = $userRepository->findUserById($user_id);
-            $user_array[0]['classroom_group'] = $user_entity->getClassroomGroup()->getName();
         }
         else
         {
             return $this->redirectToRoute('home');
         }
 
+        return $token;
+    }
+
+    public function getUserFromToken(Request $request, UserRepository $userRepository)
+    {
+        $token = $this->handleToken($request);
+        $token_exploded = explode("#", $token);
+        $user_id = $token_exploded[0];
+        $user_array = $userRepository->findUserArrayById($user_id);
+        $user_entity = $userRepository->findUserById($user_id);
+        $user_array[0]['classroom_group'] = $user_entity->getClassroomGroup()->getName();
+
         return new JsonResponse($user_array);
+    }
+
+    public function getUserClassrooms(Request $request, UserRepository $userRepository)
+    {
+        $token = $this->handleToken($request);
+        $token_exploded = explode("#", $token);
+        $user_id = $token_exploded[0];
+        $user = $userRepository->findUserById($user_id);
+        $user_classrooms = $user->getClassrooms();
+        dd($user_classrooms);
+        $classrooms_array = [];
+
+        foreach($user_classrooms as $classroom)
+        {
+            $classroom_temp_array = [];
+            array_push($classroom_temp_array, $classroom->getId(), $classroom->getName());
+        }
+
+        return new JsonResponse($classrooms_array);
     }
 
 
