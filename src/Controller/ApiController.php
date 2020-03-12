@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ClassroomRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -50,23 +51,16 @@ class ApiController extends AbstractController
         return new JsonResponse($user_array);
     }
 
-    public function getUserClassrooms(Request $request, UserRepository $userRepository)
+    public function getUserClassrooms(Request $request, UserRepository $userRepository, ClassroomRepository $classroomRepository)
     {
         $token = $this->handleToken($request);
         $token_exploded = explode("#", $token);
         $user_id = $token_exploded[0];
         $user = $userRepository->findUserById($user_id);
-        $user_classrooms = $user->getClassrooms();
-        dd($user_classrooms);
-        $classrooms_array = [];
+        $user_classroom_group_id = $user->getClassroomGroup()->getId();
+        $classrooms_of_group = $classroomRepository->findAllByGroupId_Array($user_classroom_group_id);
 
-        foreach($user_classrooms as $classroom)
-        {
-            $classroom_temp_array = [];
-            array_push($classroom_temp_array, $classroom->getId(), $classroom->getName());
-        }
-
-        return new JsonResponse($classrooms_array);
+        return new JsonResponse($classrooms_of_group);
     }
 
 
