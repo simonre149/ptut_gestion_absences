@@ -42,7 +42,7 @@ class ApiController extends AbstractController
 
     public function getUserFromToken(Request $request, UserRepository $userRepository)
     {
-        $token = $this->handleToken($request);
+        $token = $this->handleData($request, 'token');
         $token_exploded = explode("#", $token);
         $user_id = $token_exploded[0];
         $user_array = $userRepository->findUserArrayById($user_id);
@@ -54,7 +54,7 @@ class ApiController extends AbstractController
 
     public function getUserClassrooms(Request $request, UserRepository $userRepository, ClassroomRepository $classroomRepository)
     {
-        $token = $this->handleToken($request);
+        $token = $this->handleData($request, 'token');
         $token_exploded = explode("#", $token);
         $user_id = $token_exploded[0];
         $user = $userRepository->findUserById($user_id);
