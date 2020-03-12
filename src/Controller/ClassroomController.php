@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Absence;
 use App\Entity\Classroom;
 use App\Form\AdminClassroomType;
 use App\Form\TeacherClassroomType;
 use App\Form\ValidateType;
+use App\Repository\AbsenceRepository;
 use App\Repository\ClassroomRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -35,6 +37,19 @@ class ClassroomController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $manager->persist($classroom);
+            $manager->flush();
+
+            $classroom_group = $classroom->getClassroomGroup();
+            $users_entities = $userRepository->findByClassroomGroupId($classroom_group->getId());
+
+            foreach ($users_entities as $user)
+            {
+                $absence = new Absence();
+                $absence->setUserId($user->getId());
+                $absence->setClassroomId($classroom->getId());
+                $manager->persist($absence);
+            }
+
             $manager->flush();
 
             return $this->redirectToRoute('home');
@@ -83,7 +98,7 @@ class ClassroomController extends AbstractController
         $classroom = $classroomRepository->findByOneById($classroom_id);
 
         return $this->render('pages/showqrcode.classroom.html.twig', [
-            'classroom' => $classroom,
+            'classroom_id' => $classroom_id,
             'current_menu' => 'home',
             'role' => $this->getUser()->getRoles()
         ]);

@@ -39,6 +39,16 @@ class UserRepository extends ServiceEntityRepository
             ;
     }
 
+    public function findByClassroomGroupId($id)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.classroomGroup = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

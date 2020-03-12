@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\AbsenceRepository;
 use App\Repository\ClassroomRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,19 +25,19 @@ class ApiController extends AbstractController
         ]);
     }
 
-    public function handleToken(Request $request)
+    public function handleData(Request $request, string $data_name)
     {
         if ($request->isMethod('POST'))
         {
-            $token = json_decode($request->getContent());
-            $token = $token->token;
+            $array_of_data = json_decode($request->getContent(), true);
+            $data = $array_of_data[$data_name];
         }
         else
         {
             return $this->redirectToRoute('home');
         }
 
-        return $token;
+        return $data;
     }
 
     public function getUserFromToken(Request $request, UserRepository $userRepository)
@@ -61,6 +62,22 @@ class ApiController extends AbstractController
         $classrooms_of_group = $classroomRepository->findAllByGroupId_Array($user_classroom_group_id);
 
         return new JsonResponse($classrooms_of_group);
+    }
+
+    public function removeUserFromAbsence(Request $request, UserRepository $userRepository, AbsenceRepository $absenceRepository)
+    {
+        if ($request->isMethod('POST'))
+        {
+            $token = $this->handleData($request, 'token');
+            $classroom_id = $this->handleData($request, 'classroomid');
+            //$absence = $absenceRepository->
+        }
+        else
+        {
+            return $this->redirectToRoute('home');
+        }
+
+        return $token;
     }
 
 
