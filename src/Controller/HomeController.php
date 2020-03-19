@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Absence;
 use App\Repository\ClassroomRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

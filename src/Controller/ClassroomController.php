@@ -39,7 +39,7 @@ class ClassroomController extends AbstractController
             $manager->persist($classroom);
             $manager->flush();
 
-            $this->generateAbsences($classroom);
+            $this->generateAbsences($classroom, $userRepository, $manager);
 
             return $this->redirectToRoute('home');
         }
@@ -51,7 +51,7 @@ class ClassroomController extends AbstractController
         ]);
     }
 
-    public function generateAbsences(Classroom $classroom, UserRepository $userRepository, EntityManagerInterface $manager)
+    public function generateAbsences($classroom, $userRepository, $manager)
     {
         $classroom_group = $classroom->getClassroomGroup();
         $users_entities = $userRepository->findByClassroomGroupId($classroom_group->getId());
