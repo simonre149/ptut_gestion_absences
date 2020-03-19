@@ -65,7 +65,6 @@ class ApiController extends AbstractController
         $classrooms_entities_of_group = $classroomRepository->findAllByGroupId($user_classroom_group_id);
         $classrooms_array_of_group = [];
 
-        $nb_classrooms = 0;
         foreach ($classrooms_entities_of_group as $classroom_entity)
         {
             $temp_classroom_array = [];
@@ -74,9 +73,9 @@ class ApiController extends AbstractController
             array_push($temp_classroom_array, $classroom_entity->getTeacher()->getName() . " " . $classroom_entity->getTeacher()->getFirstname());
             array_push($temp_classroom_array, $classroom_entity->getStartAt()->format('d/m/Y H:i'));
             array_push($classrooms_array_of_group, $temp_classroom_array);
-            $nb_classrooms++;
         }
-        array_unshift($classrooms_array_of_group, $nb_classrooms);
+
+        array_unshift($classrooms_array_of_group, sizeof($classrooms_array_of_group));
 
         return new JsonResponse($classrooms_array_of_group);
     }
