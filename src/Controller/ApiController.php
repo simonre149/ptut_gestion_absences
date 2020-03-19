@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\AbsenceRepository;
 use App\Repository\ClassroomRepository;
 use App\Repository\UserRepository;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,20 +65,25 @@ class ApiController extends AbstractController
         return new JsonResponse($classrooms_of_group);
     }
 
-    public function removeUserFromAbsence(Request $request, UserRepository $userRepository, AbsenceRepository $absenceRepository)
+    public function removeUserFromAbsence(Request $request, UserRepository $userRepository, AbsenceRepository $absenceRepository, ObjectManager $manager)
     {
-        if ($request->isMethod('POST'))
+        $token = $this->handleData($request, 'token');
+        $token_exploded = explode("#", $token);
+        $user_id = $token_exploded[0];
+        $classroom_id = $this->handleData($request, 'classroomid');
+        $absence = $absenceRepository->findOneByClassroomIdAndUserId($classroom_id, $user_id);
+
+        if ($absence)
         {
-            $token = $this->handleData($request, 'token');
-            $classroom_id = $this->handleData($request, 'classroomid');
-            //$absence = $absenceRepository->
+            $manager->remove($absence);
+            $manager->flush();
         }
         else
         {
-            return $this->redirectToRoute('home');
+            return new JsonResponse("Absence inexistante en base");
         }
 
-        return $token;
+        return new JsonResponse(0);
     }
 
 

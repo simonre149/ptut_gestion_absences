@@ -19,14 +19,14 @@ class AbsenceRepository extends ServiceEntityRepository
         parent::__construct($registry, Absence::class);
     }
 
-    public function findOneByExampleField($classroom_id, $user_id)
+    public function findOneByClassroomIdAndUserId($classroom_id, $user_id)
     {
         return $this->createQueryBuilder('a')
             ->where('a.classroom_id = :classroom_id')
-            ->andWhere('a.exampleField = :val')
+            ->andWhere('a.user_id = :user_id')
             ->setParameter('classroom_id', $classroom_id)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+            ->setParameter('user_id', $user_id)
+            ->setMaxResults(1)
             ->getQuery()
             ->getResult()
             ;
