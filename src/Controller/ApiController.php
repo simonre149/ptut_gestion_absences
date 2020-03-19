@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Repository\AbsenceRepository;
 use App\Repository\ClassroomRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -65,7 +67,7 @@ class ApiController extends AbstractController
         return new JsonResponse($classrooms_of_group);
     }
 
-    public function removeUserFromAbsence(Request $request, UserRepository $userRepository, AbsenceRepository $absenceRepository, ObjectManager $manager)
+    public function removeUserFromAbsence(Request $request, UserRepository $userRepository, AbsenceRepository $absenceRepository, EntityManagerInterface $manager)
     {
         $token = $this->handleData($request, 'token');
         $token_exploded = explode("#", $token);

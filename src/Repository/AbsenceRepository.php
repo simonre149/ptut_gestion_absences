@@ -28,7 +28,7 @@ class AbsenceRepository extends ServiceEntityRepository
             ->setParameter('user_id', $user_id)
             ->setMaxResults(1)
             ->getQuery()
-            ->getResult()
+            ->getSingleResult()
             ;
     }
     // /**
