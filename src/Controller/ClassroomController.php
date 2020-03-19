@@ -39,18 +39,7 @@ class ClassroomController extends AbstractController
             $manager->persist($classroom);
             $manager->flush();
 
-            $classroom_group = $classroom->getClassroomGroup();
-            $users_entities = $userRepository->findByClassroomGroupId($classroom_group->getId());
-
-            foreach ($users_entities as $user)
-            {
-                $absence = new Absence();
-                $absence->setUserId($user->getId());
-                $absence->setClassroomId($classroom->getId());
-                $manager->persist($absence);
-            }
-
-            $manager->flush();
+            $this->generateAbsences($classroom);
 
             return $this->redirectToRoute('home');
         }
@@ -60,6 +49,22 @@ class ClassroomController extends AbstractController
             'form' => $form->createView(),
             'current_menu' => 'add_classroom'
         ]);
+    }
+
+    public function generateAbsences(Classroom $classroom, UserRepository $userRepository, EntityManagerInterface $manager)
+    {
+        $classroom_group = $classroom->getClassroomGroup();
+        $users_entities = $userRepository->findByClassroomGroupId($classroom_group->getId());
+
+        foreach ($users_entities as $user)
+        {
+            $absence = new Absence();
+            $absence->setUserId($user->getId());
+            $absence->setClassroomId($classroom->getId());
+            $manager->persist($absence);
+        }
+
+        $manager->flush();
     }
 
     public function editClassroom($classroom_id, ClassroomRepository $classroomRepository, Request $request)

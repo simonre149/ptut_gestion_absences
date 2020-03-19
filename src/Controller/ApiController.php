@@ -37,7 +37,7 @@ class ApiController extends AbstractController
         }
         else
         {
-            return $this->redirectToRoute('home');
+            return new JsonResponse(1);
         }
 
         return $data;
@@ -62,9 +62,20 @@ class ApiController extends AbstractController
         $user_id = $token_exploded[0];
         $user = $userRepository->findUserById($user_id);
         $user_classroom_group_id = $user->getClassroomGroup()->getId();
-        $classrooms_of_group = $classroomRepository->findAllByGroupId_Array($user_classroom_group_id);
+        $classrooms_entities_of_group = $classroomRepository->findAllByGroupId($user_classroom_group_id);
+        $classrooms_array_of_group = [];
 
-        return new JsonResponse($classrooms_of_group);
+        foreach ($classrooms_entities_of_group as $classroom_entity)
+        {
+            $temp_classroom_array = [];
+            array_push($temp_classroom_array, $classroom_entity->getId());
+            array_push($temp_classroom_array, $classroom_entity->getName());
+            array_push($temp_classroom_array, $classroom_entity->getTeacher()->getName() . " " . $classroom_entity->getTeacher()->getFirstname());
+            array_push($temp_classroom_array, $classroom_entity->getStartAt()->format('d/m/Y H:i'));
+            array_push($classrooms_array_of_group, $temp_classroom_array);
+        }
+
+        return new JsonResponse($classrooms_array_of_group);
     }
 
     public function removeUserFromAbsence(Request $request, UserRepository $userRepository, AbsenceRepository $absenceRepository, EntityManagerInterface $manager)
@@ -79,13 +90,12 @@ class ApiController extends AbstractController
         {
             $manager->remove($absence);
             $manager->flush();
+            return new JsonResponse(0);
         }
         else
         {
-            return new JsonResponse("Absence inexistante en base");
+            return new JsonResponse(1);
         }
-
-        return new JsonResponse(0);
     }
 
 
