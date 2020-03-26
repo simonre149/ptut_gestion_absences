@@ -55,7 +55,7 @@ class ApiController extends AbstractController
         return new JsonResponse($user_array);
     }
 
-    public function getUserClassrooms(Request $request, UserRepository $userRepository, ClassroomRepository $classroomRepository)
+    public function getUserClassrooms(Request $request, UserRepository $userRepository, ClassroomRepository $classroomRepository, AbsenceRepository $absenceRepository)
     {
         $token = $this->handleData($request, 'token');
         $token_exploded = explode("#", $token);
@@ -68,16 +68,26 @@ class ApiController extends AbstractController
         foreach ($classrooms_entities_of_group as $classroom_entity)
         {
             $temp_classroom_array = [];
+
             array_push($temp_classroom_array, $classroom_entity->getId());
             array_push($temp_classroom_array, $classroom_entity->getName());
             array_push($temp_classroom_array, $classroom_entity->getTeacher()->getName() . " " . $classroom_entity->getTeacher()->getFirstname());
             array_push($temp_classroom_array, $classroom_entity->getStartAt()->format('d/m/Y H:i'));
+            array_push($temp_classroom_array, $this->isUserPresentInClassroom($classroom_entity->getId(), $user_id, $absenceRepository));
             array_push($classrooms_array_of_group, $temp_classroom_array);
         }
 
         array_unshift($classrooms_array_of_group, sizeof($classrooms_array_of_group));
 
         return new JsonResponse($classrooms_array_of_group);
+    }
+
+    public function isUserPresentInClassroom($classroom_id, $user_id, AbsenceRepository $absenceRepository)
+    {
+        $absence = $absenceRepository->findOneByClassroomIdAndUserId($classroom_id, $user_id);
+
+        if ($absence == null) return true;
+        else return false;
     }
 
     public function removeUserFromAbsence(Request $request, UserRepository $userRepository, AbsenceRepository $absenceRepository, EntityManagerInterface $manager)
