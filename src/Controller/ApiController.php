@@ -84,7 +84,7 @@ class ApiController extends AbstractController
 
     public function isUserPresentInClassroom($classroom_id, $user_id, AbsenceRepository $absenceRepository)
     {
-        $absence = $absenceRepository->findOneByClassroomIdAndUserId($classroom_id, $user_id);
+        $absence = $absenceRepository->findOneArrayByClassroomIdAndUserId($classroom_id, $user_id);
 
         if ($absence == null) return true;
         else return false;
@@ -96,7 +96,7 @@ class ApiController extends AbstractController
         $token_exploded = explode("#", $token);
         $user_id = $token_exploded[0];
         $classroom_id = $this->handleData($request, 'classroomid');
-        $absence = $absenceRepository->findOneByClassroomIdAndUserId($classroom_id, $user_id);
+        $absence = $absenceRepository->findOneEntityByClassroomIdAndUserId($classroom_id, $user_id);
 
         if ($absence)
         {

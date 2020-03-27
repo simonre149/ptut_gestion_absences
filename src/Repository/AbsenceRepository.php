@@ -19,7 +19,20 @@ class AbsenceRepository extends ServiceEntityRepository
         parent::__construct($registry, Absence::class);
     }
 
-    public function findOneByClassroomIdAndUserId($classroom_id, $user_id)
+    public function findOneEntityByClassroomIdAndUserId($classroom_id, $user_id)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.classroom_id = :classroom_id')
+            ->andWhere('a.user_id = :user_id')
+            ->setParameter('classroom_id', $classroom_id)
+            ->setParameter('user_id', $user_id)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleResult()
+            ;
+    }
+
+    public function findOneArrayByClassroomIdAndUserId($classroom_id, $user_id)
     {
         return $this->createQueryBuilder('a')
             ->where('a.classroom_id = :classroom_id')
@@ -31,6 +44,7 @@ class AbsenceRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
     // /**
     //  * @return Absence[] Returns an array of Absence objects
     //  */

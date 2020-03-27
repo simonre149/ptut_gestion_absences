@@ -103,6 +103,7 @@ class ClassroomController extends AbstractController
         $classroom = $classroomRepository->findByOneById($classroom_id);
 
         return $this->render('pages/showqrcode.classroom.html.twig', [
+            'classroom' => $classroom,
             'classroom_id' => $classroom_id,
             'current_menu' => 'home',
             'role' => $this->getUser()->getRoles()

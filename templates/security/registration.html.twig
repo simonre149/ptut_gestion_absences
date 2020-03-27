@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <h1>Ajouter un utilisateur</h1>
+    <div class="col-md-4 mx-auto text-center">
     {{ form_start(form) }}
     {{ form_row(form.username, {'label' : 'Nom d\'utilisateur', 'attr' : {'placeholder': 'Nom d\'utilisateur...'}}) }}
     {{ form_row(form.name, {'label' : 'Nom', 'attr' : {'placeholder': 'Nom...'}}) }}
@@ -10,4 +11,6 @@
     {{ form_row(form.classroomGroup, {'label' : 'Groupe', 'attr' : {'placeholder': 'Choisissez un groupe...'}}) }}
     <button type="submit" class="btn btn-success">Ajouter</button>
     {{ form_end(form) }}
+    </div>
+    <br>
 {% endblock %}

@@ -48,7 +48,3 @@ get_user_from_token:
 remove_user_from_absence:
   path: /remove-user-from-absence
   controller: App\Controller\ApiController::removeUserFromAbsence
-
-testapi:
-  path: /api/testapi
-  controller: App\Controller\ApiController::testApi
