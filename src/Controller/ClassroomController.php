@@ -6,6 +6,7 @@ use App\Entity\Absence;
 use App\Entity\Classroom;
 use App\Form\AdminClassroomType;
 use App\Form\TeacherClassroomType;
+use App\Form\ValidateManuallyType;
 use App\Form\ValidateType;
 use App\Repository\AbsenceRepository;
 use App\Repository\ClassroomRepository;
@@ -14,6 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class ClassroomController extends AbstractController
@@ -108,6 +110,70 @@ class ClassroomController extends AbstractController
             'current_menu' => 'home',
             'role' => $this->getUser()->getRoles()
         ]);
+    }
+
+    public function validateManually($classroom_id, AbsenceRepository $absenceRepository, UserRepository $userRepository, Request $request, EntityManagerInterface $manager)
+    {
+        if ($this->getUser()->getRoles() != ['ROLE_ADMIN'] && $this->getUser()->getRoles() != ['ROLE_SUPER_ADMIN'])
+        {
+            return $this->redirectToRoute("home");
+        }
+        else
+        {
+            $form = $this->createForm(ValidateManuallyType::class);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid())
+            {
+                $validated_user = $form->get('users')->getData();
+                $absence = $absenceRepository->findOneEntityByClassroomIdAndUserId($classroom_id, $validated_user->getId());
+
+                if ($absence)
+                {
+                    $manager->remove($absence[0]);
+                    $manager->flush();
+                }
+                else
+                {
+                    return $this->redirectToRoute($request->attributes->get('_route'), $request->attributes->get('_route_params'));
+                }
+            }
+
+            return $this->render('pages/validatemanually.html.twig', [
+                'form' => $form->createView(),
+                'role' => $this->getUser()->getRoles()
+            ]);
+        }
+    }
+
+    public function showAbsents($classroom_id, AbsenceRepository $absenceRepository, UserRepository $userRepository)
+    {
+        if ($this->getUser()->getRoles() != ['ROLE_ADMIN'] && $this->getUser()->getRoles() != ['ROLE_SUPER_ADMIN'])
+        {
+            return $this->redirectToRoute("home");
+        }
+        else
+        {
+            $students = $this->getAbsentStudents($classroom_id, $absenceRepository, $userRepository);
+
+            return $this->render('pages/showabsents.html.twig', [
+                'students' => $students,
+                'role' => $this->getUser()->getRoles()
+            ]);
+        }
+    }
+
+    public function getAbsentStudents($classroom_id, $absenceRepository, $userRepository)
+    {
+        $absences = $absenceRepository->findAllByClassroomId($classroom_id);
+
+        $absent_students = [];
+        foreach ($absences as $absence)
+        {
+            array_push($absent_students, $userRepository->findOneById($absence->getUserId()));
+        }
+
+        return $absent_students;
     }
 }
 

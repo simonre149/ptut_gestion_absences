@@ -26,6 +26,14 @@ showqrcode:
   path: /cours/{classroom_id}
   controller: App\Controller\ClassroomController::showQrCode
 
+validate_manually:
+  path: /validate/{classroom_id}
+  controller: App\Controller\ClassroomController::validateManually
+
+show_absents:
+  path: /absents/{classroom_id}
+  controller: App\Controller\ClassroomController::showAbsents
+
 qr_code_generate:
   path: /qr_code_url/{text}.{extension}
   requirements:

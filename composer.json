@@ -6,7 +6,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-openssl": "^7.3",
-        "api-platform/api-pack": "^1.2",
         "endroid/qr-code-bundle": "^3.3",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/apache-pack": "^1.0",

@@ -8,7 +8,8 @@
     <div class="container pt-3">
         <div class="row">
             <div class="col text-center">
-                <a href="#" class="btn btn-primary text-center">Valider la présence d'un élève manuellement</a>
+                <a href="{{ path('validate_manually', {'classroom_id' : classroom.id})  }}" class="btn btn-primary text-center">Valider la présence d'un élève manuellement</a>
+                <a href="{{ path('show_absents', {'classroom_id' : classroom.id})  }}" class="btn btn-primary text-center">Voir les absents</a>
             </div>
         </div>
     </div>

@@ -100,7 +100,7 @@ class ApiController extends AbstractController
 
         if ($absence)
         {
-            $manager->remove($absence);
+            $manager->remove($absence[0]);
             $manager->flush();
             return new JsonResponse(0);
         }

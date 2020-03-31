@@ -28,7 +28,7 @@ class AbsenceRepository extends ServiceEntityRepository
             ->setParameter('user_id', $user_id)
             ->setMaxResults(1)
             ->getQuery()
-            ->getSingleResult()
+            ->getResult()
             ;
     }
 
@@ -40,6 +40,16 @@ class AbsenceRepository extends ServiceEntityRepository
             ->setParameter('classroom_id', $classroom_id)
             ->setParameter('user_id', $user_id)
             ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findAllByClassroomId($classroom_id)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.classroom_id = :classroom_id')
+            ->setParameter('classroom_id', $classroom_id)
             ->getQuery()
             ->getResult()
             ;
